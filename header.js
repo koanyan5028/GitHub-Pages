@@ -3,7 +3,8 @@ function header() {
 		url: "header.html",
 		cache: false,
 		success: function(html) {
-			document.write(html);
+			let element=document.getElementById("header");
+			console.log(html)
 		}
 	});
 }
