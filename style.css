@@ -1,0 +1,69 @@
+html{
+    background-image: url("background.png");
+    background-size: cover;
+    background-attachment: fixed;
+    backdrop-filter: blur(50px);
+}
+
+body {
+    margin: 0px;
+}
+
+header {
+    margin: 0px;
+    background: navy;
+    color: white;
+    padding: 20px;
+    width: 100%;
+    height: 80px;
+    top: 0;
+    left: 0;
+}
+
+a.channel_link {
+    color:cyan;
+    text-decoration: none;
+}
+
+p.bold {
+    font-weight: bold;
+}
+
+p.header {
+    font-size: 24px;
+    margin: 0px;
+}
+
+div.header_links {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+}
+
+p.header_links {
+    margin: 12px 0px 0px 20px;
+}
+
+a.white_link {
+    color: white;
+}
+
+div.body {
+    margin :20px;
+}
+
+div.links {
+    margin: 0px 0px 0px 10px;
+    background-color: white;
+    padding: 5px 20px 5px 10px;
+    width: fit-content;
+}
+
+.no_margin {
+    margin: 0px;
+}
+
+p.no_margin_bold {
+    margin: 0px;
+    font-weight: bold;
+}
