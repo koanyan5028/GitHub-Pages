@@ -5,6 +5,7 @@ function header() {
 		success: function(html) {
 			let element=document.getElementById("header");
 			console.log(html)
+			element.write(html);
 		}
 	});
 }
