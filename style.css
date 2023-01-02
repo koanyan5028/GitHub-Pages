@@ -66,3 +66,12 @@ p.no_margin_bold {
 	margin: 0px;
 	font-weight: bold;
 }
+
+@media screen and (max-width:480px){
+	div.header_links {
+		margin: 0px;
+		padding: 0px;
+		display: flex;
+		flex-direction: column;
+	}
+}
