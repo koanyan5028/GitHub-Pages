@@ -105,12 +105,26 @@ class InputInt extends Input{
 };
 
 class InputBool extends Input{
-	constructor(id,name){
+	constructor(id,name,value){
 		let controls={
-			text: document.getElementById(name+"_text"),
-			slider: document.getElementById(name+"_slider")
+			button: document.getElementById(name+"_button")
 		}
 		super(id,name,controls);
+		this.value=value;
+
+		this.Init();
+		this.AddCallback("button","click",this.OnClick);
+	}
+
+	OnClick(){
+		this.value=!this.value;
+		this.SetValue();
+		preset[this.id]=this.value;
+		SetPreset();
+	}
+
+	SetValue(){
+		this.controls.button.value=this.value?"はい":"いいえ";
 	}
 };
 
@@ -152,6 +166,18 @@ function Init(){
 		new InputInt("lavaLakeChance","lava_lake_chance",1,100),
 		new InputInt("biomeSize","biome_size",0,31),
 		new InputInt("riverSize","river_size",0,31),
+		new InputBool("useLavaOceans","use_lava_oceans",false),
+		new InputBool("useCaves","use_caves",true),
+		new InputBool("useStrongholds","use_strongholds",true),
+		new InputBool("useVillages","use_villages",true),
+		new InputBool("useMineShafts","use_mine_shafts",true),
+		new InputBool("useTemples","use_temples",true),
+		new InputBool("useMonuments","use_monuments",true),
+		new InputBool("useMansions","use_mansions",true),
+		new InputBool("useRavines","use_ravines",true),
+		new InputBool("useDungeons","use_dungeons",true),
+		new InputBool("useWaterLakes","use_water_lakes",true),
+		new InputBool("useLavaLakes","use_lava_lakes",true),
 	];
 }
 

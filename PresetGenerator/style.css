@@ -42,6 +42,12 @@ input.slider {
 	width: 320px;
 }
 
+input.button {
+	grid-column-start: 2;
+	grid-column-end: 4;
+	width: 60px;
+}
+
 select#biome {
 	width: fit-content;
 }
@@ -52,6 +58,7 @@ label#biome_label {
 	grid-column-end: 4;
 	background-color: unset;
 	padding: 0px;
+	margin: 0px 0px 0px 15px;
 }
 
 div.preset_generator {
@@ -74,5 +81,9 @@ h2#coming_soon {
 
 	input#copy {
 		margin: 0px 0px 30px 0px;
+	}
+
+	label#biome_label {
+		margin: 0px 0px 20px 20px;
 	}
 }
