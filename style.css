@@ -23,7 +23,7 @@ a.home_link {
 	text-decoration: none;
 }
 
-p.bold {
+.bold {
 	font-weight: bold;
 }
 
@@ -62,7 +62,7 @@ div.links {
 	margin: 0px;
 }
 
-p.no_margin_bold {
+.no_margin_bold {
 	margin: 0px;
 	font-weight: bold;
 }
