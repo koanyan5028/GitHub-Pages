@@ -36,6 +36,7 @@ div.header_links {
 	margin: 0px;
 	padding: 0px;
 	display: flex;
+	flex-wrap: wrap;
 }
 
 p.header_links {
@@ -64,10 +65,4 @@ div.links {
 p.no_margin_bold {
 	margin: 0px;
 	font-weight: bold;
-}
-
-@media screen and (max-width:720px){
-	div.header_links {
-		flex-direction: column;
-	}
 }
