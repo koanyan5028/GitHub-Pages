@@ -92,8 +92,12 @@ class InputInt extends Input{
 	//  valueの値をテキストボックスに設定する
 	SetValue(value){
 		this.controls.text.value=value??this.value;
-		if(this.log && value===undefined){
-			this.controls.slider.value=this.SolveSliderBasePos();
+		if(value===undefined){
+			if(this.log){
+				this.controls.slider.value=this.SolveSliderBasePos();
+			}else{
+				this.controls.slider.value=this.value;
+			}
 		}
 	}
 
@@ -142,16 +146,6 @@ class InputNumber extends Input{
 	}
 };
 
-class InputOreGeneration extends Input{
-	constructor(id,name){
-		let controls={
-			text: document.getElementById(name+"_text"),
-			slider: document.getElementById(name+"_slider")
-		}
-		super(id,name,controls);
-	}
-};
-
 
 function Init(){
 	biomeLabelElement.hidden=true;
@@ -179,6 +173,13 @@ function Init(){
 		new InputBool("useWaterLakes","use_water_lakes",true),
 		new InputBool("useLavaLakes","use_lava_lakes",true),
 	];
+
+	oreControls={
+		"size": new InputInt(selectedOre+"Size","ore_size",0,100),
+		"count": new InputInt(selectedOre+"Count","ore_count",0,100),
+		"minHeight": new InputInt(selectedOre+"MinHeight","ore_min_height",0,256),
+		"maxHeight": new InputInt(selectedOre+"MaxHeight","ore_max_height",0,256)
+	}
 }
 
 function InputPreset(){
@@ -219,11 +220,47 @@ function OnChangeBiome(){
 	SetPreset();
 }
 
+function OnChangeOre(){
+	selectedOre=oreElement.value;
+
+	oreControls.size.id=selectedOre+"Size";
+	oreControls.size.value=preset[selectedOre+"Size"];
+	oreControls.size.Init();
+	oreControls.count.id=selectedOre+"Count";
+	oreControls.count.value=preset[selectedOre+"Count"];
+	oreControls.count.Init();
+
+	if(selectedOre=="lapis"){
+		oreControls.minHeight.id=selectedOre+"CenterHeight";
+		oreControls.minHeight.value=preset[selectedOre+"CenterHeight"];
+		oreControls.minHeight.Init();
+		oreControls.maxHeight.id=selectedOre+"Spread";
+		oreControls.maxHeight.value=preset[selectedOre+"Spread"];
+		oreControls.maxHeight.Init();
+		oreMinHeightLabelElement.innerText="中心高度:";
+		oreMaxHeightLabelElement.innerText="分散高度:";
+	}else{
+		oreControls.minHeight.id=selectedOre+"MinHeight";
+		oreControls.minHeight.value=preset[selectedOre+"MinHeight"];
+		oreControls.minHeight.Init();
+		oreControls.maxHeight.id=selectedOre+"MaxHeight";
+		oreControls.maxHeight.value=preset[selectedOre+"MaxHeight"];
+		oreControls.maxHeight.Init();
+		oreMinHeightLabelElement.innerText="高度下限:";
+		oreMaxHeightLabelElement.innerText="高度上限:";
+	}
+}
+
 let presetElement=document.getElementById("preset");
 let biomeElement=document.getElementById("biome");
 let biomeLabelElement=document.getElementById("biome_label");
+let oreElement=document.getElementById("ore");
+let oreMinHeightLabelElement=document.getElementById("ore_min_height_label");
+let oreMaxHeightLabelElement=document.getElementById("ore_max_height_label");
+let selectedOre="dirt";
 let preset;
 let controls;
+let oreControls;
 
 let defaultPreset={
 	"coordinateScale": 684.412,

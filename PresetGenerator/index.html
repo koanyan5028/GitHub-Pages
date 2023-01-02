@@ -26,6 +26,7 @@
 				<label id="preset_label">プリセット:<br/></label>
 				<textarea id="preset" name="preset" rows="8" cols="32" wrap="hard" oninput="InputPreset();"></textarea>
 				<input type="button" id="copy" onclick="CopyPreset();" value="コピー">
+				<h2 class="section">基本設定:</h2>
 				<label>海面高度:</label>
 				<input type="number" id="sea_level_text" value="63" class="number">
 				<input type="range" id="sea_level_slider" min="1" max="255" value="63" step="1" class="slider">
@@ -79,7 +80,7 @@
 					<option value="33">メサ</option>
 					<option value="34">メサの高原F</option>
 					<option value="35">メサの高原</option>
-				</select><br/>
+				</select>
 				<label id="biome_label" class="bold"></label>
 				<label>バイオームの大きさ:</label>
 				<input type="number" id="biome_size_text" value="4" class="number">
@@ -111,9 +112,36 @@
 				<input type="button" id="use_water_lakes_button" value="はい" class="button">
 				<label>溶岩湖:</label>
 				<input type="button" id="use_lava_lakes_button" value="はい" class="button">
-				<script src="PresetGenerator.js"></script>
-				<h2 class="bold" id="coming_soon">この先制作中...</h2>
+				<h2 class="section">鉱石生成:</h2>
+				<label>鉱石:</label>
+				<select id="ore" onchange="OnChangeOre();">
+					<option value="dirt">土</option>
+					<option value="gravel">砂利</option>
+					<option value="granite">花崗岩</option>
+					<option value="diorite">閃緑岩</option>
+					<option value="andesite">安山岩</option>
+					<option value="coal">石炭</option>
+					<option value="iron">鉄</option>
+					<option value="gold">金</option>
+					<option value="redstone">レッドストーン</option>
+					<option value="diamond">ダイヤモンド</option>
+					<option value="lapis">ラピスラズリ</option>
+				</select>
+				<label class="ore">最大生成数:</label>
+				<input type="number" id="ore_size_text" value="0" class="number">
+				<input type="range" id="ore_size_slider" min="0" max="100" value="0" step="1" class="slider">
+				<label class="ore">生成頻度:</label>
+				<input type="number" id="ore_count_text" value="0" class="number">
+				<input type="range" id="ore_count_slider" min="0" max="100" value="0" step="1" class="slider">
+				<label id="ore_min_height_label" class="ore">高度下限:</label>
+				<input type="number" id="ore_min_height_text" value="0" class="number">
+				<input type="range" id="ore_min_height_slider" min="0" max="256" value="0" step="1" class="slider">
+				<label id="ore_max_height_label" class="ore">高度上限:</label>
+				<input type="number" id="ore_max_height_text" value="0" class="number">
+				<input type="range" id="ore_max_height_slider" min="0" max="256" value="0" step="1" class="slider">
 			</div>
+			<script src="PresetGenerator.js"></script>
+			<h2 class="bold" id="coming_soon">この先制作中...</h2>
 		</div>
 	</body>
 </html>
