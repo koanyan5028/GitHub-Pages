@@ -68,7 +68,7 @@ p.no_margin_bold {
 }
 
 @media screen and (max-width:640px){
-	div.header_links {
+	p.header_links {
 		margin: 0px;
 		padding: 0px;
 		display: flex;
