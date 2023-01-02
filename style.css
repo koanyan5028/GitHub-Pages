@@ -2,7 +2,7 @@ html{
 	background-image: url("background.png");
 	background-size: cover;
 	background-attachment: fixed;
-	backdrop-filter: blur(50px);
+	background-position: center;
 }
 
 body {
@@ -14,7 +14,7 @@ header {
 	background: navy;
 	color: white;
 	padding: 20px;
-	width: 100%;
+	width: max-content;
 	height: 80px;
 	top: 0;
 	left: 0;
