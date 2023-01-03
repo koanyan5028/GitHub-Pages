@@ -297,6 +297,10 @@ function CopyPreset(){
 	presetElement.select();
 	document.execCommand("copy");
 	window.getSelection().removeAllRanges();
+	presetInfoLabelElement.innerText="コピーしました";
+	setTimeout(()=>{
+		presetInfoLabelElement.innerText="";
+	},2000);
 }
 
 function SetPreset(){
@@ -353,6 +357,7 @@ function OnChangeOre(){
 
 let presetElement=document.getElementById("preset");
 let presetWarningLabelElement=document.getElementById("preset_warning_label");
+let presetInfoLabelElement=document.getElementById("preset_info_label");
 let biomeElement=document.getElementById("biome");
 let biomeLabelElement=document.getElementById("biome_label");
 let oreElement=document.getElementById("ore");

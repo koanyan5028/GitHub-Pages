@@ -26,22 +26,42 @@ textarea#preset {
 	grid-column-end: 4;
 }
 
+div#preset_info_div {
+	grid-column-start: 1;
+	grid-column-end: 4;
+	display: grid;
+	grid-template-columns: min-content auto auto;
+	padding: 0px;
+}
+
 input#copy {
+	grid-column-start: 1;
+	grid-column-end: 2;
 	width: fit-content;
 	height: fit-content;
-	margin: 0px 0px 0px 0px;
+	margin: 0px 0px 8px 0px;
 	font-size: 16px;
 	font-weight: bold;
 }
 
-label#preset_warning_label {
+label#preset_info_label {
 	grid-column-start: 2;
+	grid-column-end: 3;
+	background: none;
+	border: none;
+	font-size: 24px;
+}
+
+label#preset_warning_label {
+	grid-column-start: 3;
 	grid-column-end: 4;
 	background: none;
 	border: none;
-	text-align: right;
+	text-align: end;
 	font-size: 24px;
 	color: yellow;
+	margin: 0px;
+	padding: 0px;
 }
 
 input.number {
@@ -98,6 +118,7 @@ h2#coming_soon {
 }
 
 @media screen and (max-width:750px) {
+
 	input.slider {
 		grid-column-start: 1;
 		grid-column-end: 4;

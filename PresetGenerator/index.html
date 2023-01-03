@@ -24,8 +24,11 @@
 			<div class="preset_generator">
 				<label id="preset_label">プリセット:<br/></label>
 				<textarea id="preset" name="preset" rows="8" cols="32" wrap="hard" oninput="InputPreset();" onchange="ChangePreset();"></textarea>
-				<input type="button" id="copy" onclick="CopyPreset();" value="コピー">
-				<label id="preset_warning_label"></label>
+				<div id="preset_info_div">
+					<input type="button" id="copy" onclick="CopyPreset();" value="コピー">
+					<label id="preset_info_label"></label>
+					<label id="preset_warning_label"></label>
+				</div>
 				<h2 class="section">基本設定:</h2>
 				<label>海面高度:</label>
 				<input type="number" id="sea_level_text" value="63" class="number">
