@@ -27,13 +27,21 @@ textarea#preset {
 }
 
 input#copy {
-	grid-column-start: 1;
-	grid-column-end: 4;
 	width: fit-content;
 	height: fit-content;
 	margin: 0px 0px 0px 0px;
 	font-size: 16px;
 	font-weight: bold;
+}
+
+label#preset_warning_label {
+	grid-column-start: 2;
+	grid-column-end: 4;
+	background: none;
+	border: none;
+	text-align: right;
+	font-size: 24px;
+	color: yellow;
 }
 
 input.number {

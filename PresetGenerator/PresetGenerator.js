@@ -6,6 +6,7 @@ class Input{
 		this.name=name;
 		this.value=preset[id];
 		this.controls=controls;
+		Input.controls.push(this);
 	}
 
 	Init(){
@@ -19,6 +20,16 @@ class Input{
 	SetValue(){
 		
 	}
+
+	static PresetChanged(){
+		for(let control of this.controls){
+			let id=control.id;
+			control.value=preset[id];
+			control.SetValue();
+		}
+	}
+
+	static controls=[];
 };
 
 class InputInt extends Input{
@@ -69,7 +80,6 @@ class InputInt extends Input{
 	}
 
 	OnSliderChanged(){
-		console.log("changed");
 		let value=Number(this.controls.slider.value);
 		if(this.log){
 			let base=this.SolveSliderBasePos();
@@ -137,12 +147,60 @@ class InputNumber extends Input{
 	//name: 要素のID
 	//min: 最小値
 	//max: 最大値
-	constructor(id,name){
+	constructor(id,name,offset=50){
 		let controls={
 			text: document.getElementById(name+"_text"),
 			slider: document.getElementById(name+"_slider")
 		}
 		super(id,name,controls);
+		this.offset=offset;
+
+		this.Init();
+		this.AddCallback("text","input",this.OnTextInput);
+		this.AddCallback("slider","input",this.OnSliderInput);
+		this.AddCallback("slider","change",this.OnSliderChanged);
+	}
+
+	OnTextInput(){
+		let value=Number(this.controls.text.value);
+		this.value=value;
+		this.SetValue();
+		preset[this.id]=value;
+		SetPreset();
+	}
+
+	OnSliderInput(){
+		let value=Number(this.controls.slider.value);
+		let scale=this.SolveScale();
+		value=this.value+value*scale;
+		this.controls.text.value=value;
+		this.SetValue(value);
+		preset[this.id]=value;
+		SetPreset();
+	}
+
+	OnSliderChanged(){
+		let value=Number(this.controls.slider.value);
+		let scale=this.SolveScale();
+		value=this.value+value*scale;
+		this.controls.text.value=value;
+		this.value=value;
+		this.SetValue();
+		preset[this.id]=value;
+		SetPreset();
+	}
+
+	SetValue(value){
+		this.controls.text.value=value??this.value;
+		if(value===undefined){
+				this.controls.slider.value=0;
+		}
+	}
+
+	SolveScale(){
+		const scale=1;
+		const offset=this.offset;
+		return Math.sqrt(offset*offset+scale*scale*this.value*this.value);
 	}
 };
 
@@ -172,6 +230,22 @@ function Init(){
 		new InputBool("useDungeons","use_dungeons",true),
 		new InputBool("useWaterLakes","use_water_lakes",true),
 		new InputBool("useLavaLakes","use_lava_lakes",true),
+		new InputNumber("mainNoiseScaleX","main_noise_scale_x"),
+		new InputNumber("mainNoiseScaleY","main_noise_scale_y"),
+		new InputNumber("mainNoiseScaleZ","main_noise_scale_z"),
+		new InputNumber("depthNoiseScaleX","depth_noise_scale_x"),
+		new InputNumber("depthNoiseScaleZ","depth_noise_scale_z"),
+		new InputNumber("depthNoiseScaleExponent","depth_noise_scale_exponent"),
+		new InputNumber("baseSize","base_size"),
+		new InputNumber("coordinateScale","coordinate_scale"),
+		new InputNumber("heightScale","height_scale"),
+		new InputNumber("stretchY","stretch_y"),
+		new InputNumber("upperLimitScale","upper_limit_scale"),
+		new InputNumber("lowerLimitScale","lower_limit_scale"),
+		new InputNumber("biomeDepthWeight","biome_depth_weight",10),
+		new InputNumber("biomeDepthOffset","biome_depth_offset",10),
+		new InputNumber("biomeScaleWeight","biome_scale_weight",10),
+		new InputNumber("biomeScaleOffset","biome_scale_offset",10),
 	];
 
 	oreControls={
@@ -190,8 +264,30 @@ function InputPreset(){
 		setTimeout(
 			()=>{presetElement.scrollTop=0;},
 			0
-		)
+		);
 	}
+}
+
+function ChangePreset(){
+	try{
+		preset={...defaultPreset,...JSON.parse(presetElement.value)};
+		presetWarningLabelElement.innerText="";
+	}catch{
+		presetWarningLabelElement.innerText="プリセットが無効です";
+		setTimeout(SetPreset,1000);
+		return;
+	}
+	let keys=Object.keys(preset);
+	let defaultKeys=Object.keys(defaultPreset);
+	for(let key of keys){
+		if(!defaultKeys.includes(key)){
+			delete preset[key];
+		}
+	}
+	biomeElement.value=preset.fixedBiome;
+	OnChangeBiome();
+	SetPreset();
+	Input.PresetChanged();
 }
 
 function CopyPreset(){
@@ -201,22 +297,23 @@ function CopyPreset(){
 }
 
 function SetPreset(){
-	presetElement.innerText=JSON.stringify(preset);
+	presetElement.value=JSON.stringify(preset);
 }
 
 function OnChangeBiome(){
 	let biome=Number(biomeElement.value);
-	if(biome==-2){
+	if(biome==8 || biome==9){
 		biomeLabelElement.hidden=false;
 		biomeLabelElement.innerText="※Minecraftのバグによりプリセットでこのバイオームに設定する事が出来ません\n設定する必要がある場合は手動で設定して下さい\n";
 		biome=36;
-	}else if(biome>=8){
+	}else if(biome>=10){
 		biomeLabelElement.hidden=false;
-		biomeLabelElement.innerText="※Minecraftのバグによりこのバイオームを設定するとカスタマイズ画面を開き直した時に設定されたバイオームが2つ後ろにずれるので注意して下さい\n"
+		biomeLabelElement.innerText="※Minecraftのバグによりこのバイオームを設定するとカスタマイズ画面を開き直した時に設定されたバイオームが2つ後ろにずれるので注意して下さい\n";
+		biome-=2;
 	}else{
 		biomeLabelElement.hidden=true;
 	}
-	preset.fixedBiome=biome;
+	preset["fixedBiome"]=biome;
 	SetPreset();
 }
 
@@ -252,6 +349,7 @@ function OnChangeOre(){
 }
 
 let presetElement=document.getElementById("preset");
+let presetWarningLabelElement=document.getElementById("preset_warning_label");
 let biomeElement=document.getElementById("biome");
 let biomeLabelElement=document.getElementById("biome_label");
 let oreElement=document.getElementById("ore");

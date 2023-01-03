@@ -24,8 +24,9 @@
 			</p>
 			<div class="preset_generator">
 				<label id="preset_label">プリセット:<br/></label>
-				<textarea id="preset" name="preset" rows="8" cols="32" wrap="hard" oninput="InputPreset();"></textarea>
+				<textarea id="preset" name="preset" rows="8" cols="32" wrap="hard" oninput="InputPreset();" onchange="ChangePreset();"></textarea>
 				<input type="button" id="copy" onclick="CopyPreset();" value="コピー">
+				<label id="preset_warning_label"></label>
 				<h2 class="section">基本設定:</h2>
 				<label>海面高度:</label>
 				<input type="number" id="sea_level_text" value="63" class="number">
@@ -50,36 +51,36 @@
 					<option value="5">タイガ</option>
 					<option value="6">湿地</option>
 					<option value="7">河川</option>
-					<option value="-2">凍った海</option>
-					<option value="-2">凍った川</option>
-					<option value="8">雪原</option>
-					<option value="9">雪山</option>
-					<option value="10">キノコ島</option>
-					<option value="11">キノコ島の海岸</option>
-					<option value="12">砂浜</option>
-					<option value="13">砂漠の丘陵</option>
-					<option value="14">森林の丘陵</option>
-					<option value="15">タイガの丘陵</option>
-					<option value="16">山岳の端</option>
-					<option value="17">ジャングル</option>
-					<option value="18">ジャングルの丘陵</option>
-					<option value="19">ジャングルの端</option>
-					<option value="20">深海</option>
-					<option value="21">石の海岸</option>
-					<option value="22">冷たい砂浜</option>
-					<option value="23">シラカバの森</option>
-					<option value="24">シラカバの森の丘陵</option>
-					<option value="25">覆われた森</option>
-					<option value="26">冷たいタイガ</option>
-					<option value="27">冷たいタイガの丘陵</option>
-					<option value="28">メガタイガ</option>
-					<option value="29">メガタイガの丘陵</option>
-					<option value="30">山岳+</option>
-					<option value="31">サバンナ</option>
-					<option value="32">サバンナの高原</option>
-					<option value="33">メサ</option>
-					<option value="34">メサの高原F</option>
-					<option value="35">メサの高原</option>
+					<option value="8">凍った海</option>
+					<option value="9">凍った川</option>
+					<option value="10">雪原</option>
+					<option value="11">雪山</option>
+					<option value="12">キノコ島</option>
+					<option value="13">キノコ島の海岸</option>
+					<option value="14">砂浜</option>
+					<option value="15">砂漠の丘陵</option>
+					<option value="16">森林の丘陵</option>
+					<option value="17">タイガの丘陵</option>
+					<option value="18">山岳の端</option>
+					<option value="19">ジャングル</option>
+					<option value="20">ジャングルの丘陵</option>
+					<option value="21">ジャングルの端</option>
+					<option value="22">深海</option>
+					<option value="23">石の海岸</option>
+					<option value="24">冷たい砂浜</option>
+					<option value="25">シラカバの森</option>
+					<option value="26">シラカバの森の丘陵</option>
+					<option value="27">覆われた森</option>
+					<option value="28">冷たいタイガ</option>
+					<option value="29">冷たいタイガの丘陵</option>
+					<option value="30">メガタイガ</option>
+					<option value="31">メガタイガの丘陵</option>
+					<option value="32">山岳+</option>
+					<option value="33">サバンナ</option>
+					<option value="34">サバンナの高原</option>
+					<option value="35">メサ</option>
+					<option value="36">メサの高原F</option>
+					<option value="37">メサの高原</option>
 				</select>
 				<label id="biome_label" class="bold"></label>
 				<label>バイオームの大きさ:</label>
@@ -112,7 +113,7 @@
 				<input type="button" id="use_water_lakes_button" value="はい" class="button">
 				<label>溶岩湖:</label>
 				<input type="button" id="use_lava_lakes_button" value="はい" class="button">
-				<h2 class="section">鉱石生成:</h2>
+				<h2 class="section">鉱石の設定:</h2>
 				<label>鉱石:</label>
 				<select id="ore" onchange="OnChangeOre();">
 					<option value="dirt">土</option>
@@ -139,6 +140,55 @@
 				<label id="ore_max_height_label" class="ore">高度上限:</label>
 				<input type="number" id="ore_max_height_text" value="0" class="number">
 				<input type="range" id="ore_max_height_slider" min="0" max="256" value="0" step="1" class="slider">
+				<h2 class="section">高度な設定:</h2>
+				<label>主要ノイズ規模 X:</label>
+				<input type="number" id="main_noise_scale_x_text" value="0" class="number">
+				<input type="range" id="main_noise_scale_x_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>主要ノイズ規模 Y:</label>
+				<input type="number" id="main_noise_scale_y_text" value="0" class="number">
+				<input type="range" id="main_noise_scale_y_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>主要ノイズ規模 Z:</label>
+				<input type="number" id="main_noise_scale_z_text" value="0" class="number">
+				<input type="range" id="main_noise_scale_z_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>深度ノイズ規模 X:</label>
+				<input type="number" id="depth_noise_scale_x_text" value="0" class="number">
+				<input type="range" id="depth_noise_scale_x_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>深度ノイズ規模 Z:</label>
+				<input type="number" id="depth_noise_scale_z_text" value="0" class="number">
+				<input type="range" id="depth_noise_scale_z_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>深度ノイズ指数:</label>
+				<input type="number" id="depth_noise_scale_exponent_text" value="0" class="number">
+				<input type="range" id="depth_noise_scale_exponent_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>深度基本量:</label>
+				<input type="number" id="base_size_text" value="0" class="number">
+				<input type="range" id="base_size_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>座標尺:</label>
+				<input type="number" id="coordinate_scale_text" value="0" class="number">
+				<input type="range" id="coordinate_scale_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>高度規模:</label>
+				<input type="number" id="height_scale_text" value="0" class="number">
+				<input type="range" id="height_scale_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>高度伸長:</label>
+				<input type="number" id="stretch_y_text" value="0" class="number">
+				<input type="range" id="stretch_y_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>規模上限:</label>
+				<input type="number" id="upper_limit_scale_text" value="0" class="number">
+				<input type="range" id="upper_limit_scale_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>規模下限:</label>
+				<input type="number" id="lower_limit_scale_text" value="0" class="number">
+				<input type="range" id="lower_limit_scale_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>バイオーム深度比重:</label>
+				<input type="number" id="biome_depth_weight_text" value="0" class="number">
+				<input type="range" id="biome_depth_weight_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>バイオーム深度偏差:</label>
+				<input type="number" id="biome_depth_offset_text" value="0" class="number">
+				<input type="range" id="biome_depth_offset_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>バイオーム規模比重:</label>
+				<input type="number" id="biome_scale_weight_text" value="0" class="number">
+				<input type="range" id="biome_scale_weight_slider" min="-1" max="1" value="0" step="0.001" class="slider">
+				<label>バイオーム規模偏差:</label>
+				<input type="number" id="biome_scale_offset_text" value="0" class="number">
+				<input type="range" id="biome_scale_offset_slider" min="-1" max="1" value="0" step="0.001" class="slider">
 			</div>
 			<script src="PresetGenerator.js"></script>
 			<h2 class="bold" id="coming_soon">この先制作中...</h2>
