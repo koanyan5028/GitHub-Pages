@@ -274,7 +274,10 @@ function ChangePreset(){
 		presetWarningLabelElement.innerText="";
 	}catch{
 		presetWarningLabelElement.innerText="プリセットが無効です";
-		setTimeout(SetPreset,1000);
+		SetPreset();
+		setTimeout(()=>{
+			presetWarningLabelElement.innerText="";
+		},2000);
 		return;
 	}
 	let keys=Object.keys(preset);
