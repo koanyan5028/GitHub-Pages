@@ -1,3 +1,5 @@
+/* Home */
+
 html{
 	background-image: url("background.png");
 	background-size: cover;
@@ -16,6 +18,10 @@ header {
 	padding: 20px;
 	top: 0;
 	left: 0;
+}
+
+p {
+	margin: 15px 0px;
 }
 
 a.home_link {
