@@ -72,3 +72,21 @@ div.links {
 	margin: 0px;
 	font-weight: bold;
 }
+
+div.border {
+	border: 1px solid black;
+	background-color: white;
+	padding: 0px;
+	margin: 10px 0px 10px 0px;
+}
+
+p.title {
+	background-color: aqua;
+	margin: 0px;
+	padding: 4px 0px 4px 8px;
+}
+
+ul {
+	margin: 5px 5px 5px 0px;
+	padding: 0px 0px 0px 30px;
+}
