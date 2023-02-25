@@ -172,16 +172,16 @@ class InputNumber extends Input{
 			//通常の数字はパス
 			if("0123456789".includes(text[i])) continue;
 
-			//先頭以外、Eより前の小数点はパス
+			//先頭以外、eより前の小数点はパス
 			if(i>=1 && text[i]=="." && (!point) && (!exponent)){
 				point=true;
 				continue;
 			}
 
-			//先頭またはEの直後の符号はパス
+			//先頭またはeの直後の符号はパス
 			if((i==0 || "eE".includes(text[i-1])) && "+-".includes(text[i])) continue;
 
-			//先頭以外、小数点の直後でないEはパス
+			//先頭以外、小数点の直後でないeはパス
 			if(i>=1 && "eE".includes(text[i])){
 				if(!exponent){
 					exponent=true;
