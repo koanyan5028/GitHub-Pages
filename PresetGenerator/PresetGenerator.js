@@ -147,6 +147,7 @@ class InputNumber extends Input{
 	//name: 要素のID
 	//min: 最小値
 	//max: 最大値
+	//preText: 変更前のテキスト
 	constructor(id,name,offset=50){
 		let controls={
 			text: document.getElementById(name+"_text"),
@@ -154,6 +155,7 @@ class InputNumber extends Input{
 		}
 		super(id,name,controls);
 		this.offset=offset;
+		this.preText=this.controls.text.value;
 
 		this.Init();
 		this.AddCallback("text","input",this.OnTextInput);
@@ -162,11 +164,55 @@ class InputNumber extends Input{
 	}
 
 	OnTextInput(){
-		let value=Number(this.controls.text.value);
+		let text=this.controls.text.value;
+		let valid=true;
+		let point=false;
+		let exponent=false;
+		for(let i=0;i<text.length;i++){
+			//通常の数字はパス
+			if("0123456789".includes(text[i])) continue;
+
+			//先頭以外、Eより前の小数点はパス
+			if(i>=1 && text[i]=="." && (!point) && (!exponent)){
+				point=true;
+				continue;
+			}
+
+			//先頭またはEの直後の符号はパス
+			if((i==0 || "eE".includes(text[i-1])) && "+-".includes(text[i])) continue;
+
+			//先頭以外、小数点の直後でないEはパス
+			if(i>=1 && "eE".includes(text[i])){
+				if(!exponent){
+					exponent=true;
+					continue;
+				}
+			}
+
+			//それ以外はパスしない
+			valid=false;
+			break;
+		}
+
+		//パスしなかった文字列の変更は元に戻す
+		if(!valid){
+			this.controls.text.value=this.preText;
+			return;
+		}
+
+		//入力途中のテキストはいじらない
+		if(text=="" || ".+-eE".includes(text[text.length-1]) || text.includes(".e") || text.includes(".E")){
+			this.preText=text;
+			return;
+		}
+
+		let value=Number(text);
+		console.log(`text: "${text}", value: ${value}`);
 		this.value=value;
-		this.SetValue();
+		this.SetValue(value,false,true);
 		preset[this.id]=value;
 		SetPreset();
+		this.preText=text;
 	}
 
 	OnSliderInput(){
@@ -174,9 +220,9 @@ class InputNumber extends Input{
 		let scale=this.SolveScale();
 		value=this.value+value*scale;
 		this.controls.text.value=value;
-		this.SetValue(value);
+		this.SetValue(value,true,false);
 		preset[this.id]=value;
-		SetPreset();
+		SetPreset(value);
 	}
 
 	OnSliderChanged(){
@@ -185,14 +231,27 @@ class InputNumber extends Input{
 		value=this.value+value*scale;
 		this.controls.text.value=value;
 		this.value=value;
-		this.SetValue();
+		this.SetValue(value,true,true);
 		preset[this.id]=value;
-		SetPreset();
+		SetPreset(value);
 	}
 
-	SetValue(value){
-		this.controls.text.value=value??this.value;
-		if(value===undefined){
+	SetValue(value,setText=true,resetSlider=true){
+		if(value===undefined) value=this.value;
+		if(setText){
+			let valueText=value.toString();
+			if(Math.abs(value)>=1e7){
+				valueText=value.toExponential(7);
+			}else{
+				valueText=valueText.substring(0,9+(valueText<0?1:0));
+				if(valueText[-1]=="."){
+					valueText=valueText.substring(0,valueText.length-1);
+				}
+			}
+			this.controls.text.value=valueText;
+			this.preText=valueText;
+		}
+		if(resetSlider){
 				this.controls.slider.value=0;
 		}
 	}
@@ -287,7 +346,13 @@ function ChangePreset(){
 			delete preset[key];
 		}
 	}
-	biomeElement.value=preset.fixedBiome;
+	let biome=preset.fixedBiome;
+	if(biome>=36){
+		biome-=28;
+	}else if(biome>=8){
+		biome+=2;
+	}
+	biomeElement.value=biome;
 	OnChangeBiome();
 	SetPreset();
 	Input.PresetChanged();
@@ -312,7 +377,7 @@ function OnChangeBiome(){
 	if(biome==8 || biome==9){
 		biomeLabelElement.hidden=false;
 		biomeLabelElement.innerText="※Minecraftのバグによりプリセットでこのバイオームに設定する事が出来ません\n設定する必要がある場合は手動で設定して下さい\n";
-		biome=36;
+		biome+=28;
 	}else if(biome>=10){
 		biomeLabelElement.hidden=false;
 		biomeLabelElement.innerText="※Minecraftのバグによりこのバイオームを設定するとカスタマイズ画面を開き直した時に設定されたバイオームが2つ後ろにずれるので注意して下さい\n";
