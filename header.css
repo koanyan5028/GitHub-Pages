@@ -1,0 +1,38 @@
+html {
+  overflow: hidden;
+  margin: 0px;
+  background: navy;
+  color: white;
+  padding: 20px;
+  top: 0;
+  left: 0;
+}
+
+body {
+  margin: 0px;
+}
+
+a.home_link {
+  color: cyan;
+  text-decoration: none;
+}
+
+p.header {
+  font-size: 24px;
+  margin: 0px;
+}
+
+div.header_links {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+p.header_links {
+  margin: 12px 0px 0px 20px;
+}
+
+a.white_link {
+  color: white;
+}

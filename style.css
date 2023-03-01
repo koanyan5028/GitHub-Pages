@@ -11,46 +11,12 @@ body {
 	margin: 0px;
 }
 
-header {
-	margin: 0px;
-	background: navy;
-	color: white;
-	padding: 20px;
-	top: 0;
-	left: 0;
-}
-
 p {
 	margin: 15px 0px;
 }
 
-a.home_link {
-	color:cyan;
-	text-decoration: none;
-}
-
 .bold {
 	font-weight: bold;
-}
-
-p.header {
-	font-size: 24px;
-	margin: 0px;
-}
-
-div.header_links {
-	margin: 0px;
-	padding: 0px;
-	display: flex;
-	flex-wrap: wrap;
-}
-
-p.header_links {
-	margin: 12px 0px 0px 20px;
-}
-
-a.white_link {
-	color: white;
 }
 
 div.body {
@@ -89,4 +55,22 @@ p.title {
 ul {
 	margin: 5px 5px 5px 0px;
 	padding: 0px 0px 0px 30px;
+}
+
+iframe {
+	border: none;
+	width: 100%;
+	height: 160px;
+	margin: 0px;
+	padding: 0px;
+}
+
+@media screen and (min-width: 702px) {
+	iframe {
+		border: none;
+		width: 100%;
+		height: 120px;
+		margin: 0px;
+		padding: 0px;
+	}
 }
