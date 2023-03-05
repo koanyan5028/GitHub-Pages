@@ -4,6 +4,10 @@ h2 {
 	margin: 0px;
 }
 
+h3 {
+	margin: 0px;
+}
+
 div.flex {
 	display: flex;
 	text-align: right;
@@ -38,6 +42,13 @@ div#ul_div {
 	margin: 0px 20px 15px 0px;
 }
 
+div#p_div {
+	background-color: #ffffff7f;
+	border: 1px solid black;
+	margin: 0px 20px 15px 0px;
+	padding: 10px 10px 10px 10px;
+}
+
 ul {
 	mix-blend-mode: normal;
 	margin: 15px 10px 15px 0px;
@@ -45,4 +56,8 @@ ul {
 
 li {
 	mix-blend-mode: normal;
+}
+
+div#p_div p {
+	margin: 5px 0px 5px 0px;
 }
