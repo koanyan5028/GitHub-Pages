@@ -36,3 +36,8 @@ p.header_links {
 a.white_link {
   color: white;
 }
+
+a.offset_underline {
+  color: white;
+  text-underline-offset: 2px;
+}
