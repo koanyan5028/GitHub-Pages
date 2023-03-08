@@ -1,2 +1,6 @@
 plugins:
-  - jekyll-sitemap
+	- jekyll-sitemap
+
+exclude:
+	header.html
+	template.html
